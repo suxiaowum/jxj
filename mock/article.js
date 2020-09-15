@@ -46,12 +46,21 @@ module.exports = [
       }
 
       const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
-
+      const data = [{
+        id:1,
+        name:"大蛤蟆",
+        phone:"15215315222",
+        addres:"山东省临沂市兰山区IEC国际企业中心",
+        code:"3rg5d",
+        kdgs:"申通快递",
+        status:'正常'
+      }]
       return {
         code: 20000,
         data: {
           total: mockList.length,
-          items: pageList
+          items: pageList,
+          data:data
         }
       }
     }

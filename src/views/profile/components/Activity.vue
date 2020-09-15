@@ -60,7 +60,7 @@
       <div class="user-block">
         <img class="img-circle" :src="'https://wpimg.wallstcn.com/fb57f689-e1ab-443c-af12-8d4066e202e2.jpg'+avatarPrefix">
         <span class="username">Spider Man</span>
-        <span class="description">Posted 4 photos - 2 days ago</span>
+        <span class="description">Posted 4 photos - 2 days a</span>
       </div>
       <div class="user-images">
         <el-carousel :interval="6000" type="card" height="220px">

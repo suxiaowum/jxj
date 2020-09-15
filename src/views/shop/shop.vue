@@ -33,7 +33,7 @@
     </div>
     <el-table :data="list" border fit highlight-current-row style="width: 100%;">
       <el-table-column label="id" prop="id"></el-table-column>
-      <el-table-column label="姓名" prop="name"></el-table-column>
+      <el-table-column label="门店名" prop="name"></el-table-column>
       <el-table-column label="手机号" prop="phone"></el-table-column>
       <el-table-column label="快递公司">
         <template slot-scope="{row}">
@@ -46,9 +46,14 @@
         </template>
       </el-table-column>
       <el-table-column label="邀请码" prop="code"></el-table-column>
-      <el-table-column label="状态" prop="code">
+      <el-table-column label="状态">
         <template slot-scope="{row}">
           <el-tag :type="row.status | statusFilter">{{ row.status }}</el-tag>
+        </template>
+      </el-table-column>
+      <el-table-column label="审核图片">
+        <template slot-scope="{row}">
+          <el-link :underline="false" @click="seeImg(row)" type="primary">查看</el-link>
         </template>
       </el-table-column>
       <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
@@ -70,12 +75,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="listQuery.page"
-      :limit.sync="listQuery.limit"
-    />
     <el-dialog title="修改" :visible.sync="editDialog">
       <el-form :model="edit" label-width="70px" style="width: 400px; margin-left:50px;">
         <el-form-item label="快递公司">
@@ -141,14 +140,38 @@
         <el-button type="primary" @click="newEditFun">提交</el-button>
       </div>
     </el-dialog>
+    <el-dialog title="查看图片" :visible.sync="imgDialog" :fullscreen="false" top="3vh" close-on-press-escape='false'	>
+      <el-row :gutter="10">
+        <el-col :span="12">
+          <p class="imgtit">图片1</p>
+          <el-image :src="imgVal.img1" :preview-src-list="[imgVal.img1]" placeholder="图片错误" error="加载失败"></el-image>
+        </el-col>
+        <el-col :span="12">
+          <p class="imgtit">图片2</p>
+          <el-image :src="imgVal.img2" :preview-src-list="[imgVal.img2]" placeholder="图片错误" error="加载失败"></el-image>
+        </el-col>
+      </el-row>
+      <el-row :gutter="10">
+        <el-col :span="12">
+          <p class="imgtit">图片3</p>
+          <el-image :src="imgVal.img3" :preview-src-list="[imgVal.img3]" placeholder="图片错误" error="加载失败"></el-image>
+        </el-col>
+        <el-col :span="12">
+          <p class="imgtit">图片4</p>
+          <el-image :src="imgVal.img4" :preview-src-list="[imgVal.img4]" placeholder="图片错误" error="加载失败"></el-image>
+        </el-col>
+      </el-row>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="imgDialog = false">关 闭</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
 import waves from "@/directive/waves"; // waves directive
-import Pagination from "@/components/Pagination";
+
 export default {
   directives: { waves },
-  components: { Pagination },
   filters: {
     statusFilter(status) {
       if (status === "正常") {
@@ -161,11 +184,7 @@ export default {
   data() {
     return {
       selectPhone: undefined,
-      total: 1,
-      listQuery: {
-        page: 1,
-        limit: 20,
-      },
+
       list: [
         {
           id: 1,
@@ -175,6 +194,14 @@ export default {
           code: "3rg5d",
           kdgs: "申通快递",
           status: "正常",
+          img1:
+            "https://fuss10.elemecdn.com/e/5d/4a731a90594a4af544c0c25941171jpeg.jpeg",
+          img2:
+            "https://cube.elemecdn.com/6/94/4d3ea53c084bad6931a56d5158a48jpeg.jpeg",
+          img3:
+            "https://fuss10.elemecdn.com/a/3f/3302e58f9a181d2509f3dc0fa68b0jpeg.jpeg",
+          img4:
+            "https://fuss10.elemecdn.com/1/34/19aa98b1fcb2781c4fba33d850549jpeg.jpeg",
         },
         {
           id: 2,
@@ -204,12 +231,21 @@ export default {
           val: "正常",
         },
       ],
+      imgVal: {},
       newEditDialog: false,
       editDialog: false,
       downloadLoading: false,
+      imgDialog: false,
     };
   },
   methods: {
+    seeImg(row) {
+      this.imgDialog = true;
+      this.imgVal.img1 = row.img1;
+      this.imgVal.img2 = row.img2;
+      this.imgVal.img3 = row.img3;
+      this.imgVal.img4 = row.img4;
+    },
     numFun(val) {
       this.newEdit.phone = Number(val);
     },
@@ -249,7 +285,7 @@ export default {
       row.status = status;
     },
     handleDelete(row, index) {
-      this.$confirm("确认删除该快递员吗?", "删除", {
+      this.$confirm("确认删除该商家吗?", "删除", {
         confirmButtonText: "确定",
         cancelButtonText: "取消",
         type: "warning",
@@ -311,5 +347,9 @@ export default {
 <style scoped>
 .one_btn {
   margin-left: 60px;
+}
+.imgtit {
+  text-align: center;
+  font-size: 20px;
 }
 </style>

@@ -33,8 +33,8 @@
     </div>
     <el-table :data="list" border fit highlight-current-row style="width: 100%;">
       <el-table-column label="id" prop="id"></el-table-column>
-      <el-table-column label="姓名" prop="name"></el-table-column>
-      <el-table-column label="手机号" prop="phone"></el-table-column>
+      <el-table-column label="用户名" prop="name"></el-table-column>
+      <el-table-column label="密码" prop="phone"></el-table-column>
       <el-table-column label="快递公司">
         <template slot-scope="{row}">
           <el-tag>{{ row.kdgs }}</el-tag>
@@ -70,12 +70,6 @@
         </template>
       </el-table-column>
     </el-table>
-    <pagination
-      v-show="total>0"
-      :total="total"
-      :page.sync="listQuery.page"
-      :limit.sync="listQuery.limit"
-    />
     <el-dialog title="修改" :visible.sync="editDialog">
       <el-form :model="edit" label-width="70px" style="width: 400px; margin-left:50px;">
         <el-form-item label="快递公司">
@@ -145,10 +139,9 @@
 </template>
 <script>
 import waves from "@/directive/waves"; // waves directive
-import Pagination from "@/components/Pagination";
+
 export default {
   directives: { waves },
-  components: { Pagination },
   filters: {
     statusFilter(status) {
       if (status === "正常") {
@@ -161,11 +154,7 @@ export default {
   data() {
     return {
       selectPhone: undefined,
-      total: 1,
-      listQuery: {
-        page: 1,
-        limit: 20,
-      },
+
       list: [
         {
           id: 1,
